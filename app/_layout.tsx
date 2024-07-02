@@ -1,19 +1,17 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { FontAwesome } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Drawer } from 'expo-router/drawer';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import CustomDrawerContent from '../components/CustomDrawerContent';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require('../assets/fonts/ConcertOne-Regular.ttf'),
   });
 
   useEffect(() => {
@@ -27,11 +25,29 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+    <Drawer
+     screenOptions={{
+      drawerLabelStyle: {
+          marginLeft: -20
+      },
+      drawerActiveBackgroundColor: 'gray',
+      drawerActiveTintColor: 'white',
+      drawerInactiveTintColor: 'white'
+  }}
+  drawerContent={CustomDrawerContent}>
+      <Drawer.Screen
+        name="Layout"
+        options={{
+          drawerLabel: 'Layout',
+          title: 'Overview',
+          drawerIcon: ({ color, size }) => (
+            <FontAwesome name="home" size={size} color={color} />
+          ),
+        
+        }}
+      />
+    </Drawer>
+  </GestureHandlerRootView>
   );
 }
