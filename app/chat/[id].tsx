@@ -122,7 +122,6 @@ const navigation = useNavigation()
 };
 
 export default chats;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

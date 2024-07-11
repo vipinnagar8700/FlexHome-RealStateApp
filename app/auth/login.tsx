@@ -1,9 +1,16 @@
 import colors from '@/constants/colors';
+import { supabase } from '@/supabase/supabase';
 import { FontAwesome } from '@expo/vector-icons';
-import React from 'react';
+import { Link } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
+
+const FACEBOOK_APP_ID = 'your-facebook-app-id';
+
 const Login = () => {
+  const [user, setUser] = useState(null);
+
   const handleGoogleLogin = () => {
     // Implement Google login functionality
     alert('Google Login');
@@ -14,10 +21,14 @@ const Login = () => {
     alert('Facebook Login');
   };
 
-  const handlePhoneLogin = () => {
-    // Implement Phone login functionality
-    alert('Phone Login');
-  };
+  useEffect(() => {
+    const fetchSession = async () => {
+      const session = await supabase.auth.getSession();
+      setUser(session.data.session?.user ?? null);
+    };
+
+    fetchSession();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -37,11 +48,12 @@ const Login = () => {
           <FontAwesome name="facebook" size={20} color="#fff" style={styles.FontAwesome} />
           <Text style={styles.buttonText}>Sign in with Facebook</Text>
         </TouchableOpacity>
+        <Link href="/phonelogin" asChild>
         <TouchableOpacity style={styles.button} onPress={handlePhoneLogin}>
           <FontAwesome name="phone" size={20} color="#fff" style={styles.FontAwesome} />
           <Text style={styles.buttonText}>Sign in with Phone</Text>
         </TouchableOpacity>
-      
+        </Link>
       </View>
     </View>
   );

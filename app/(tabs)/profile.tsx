@@ -552,7 +552,8 @@ const FavourateProperties = () => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.bgColor,
+    backgroundColor: colors.primaryColor,
+    paddingTop: 100
   },  packageName: {
     fontSize: 18,
     fontWeight: 'bold',

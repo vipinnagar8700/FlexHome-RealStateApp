@@ -495,7 +495,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.bgColor,
     padding: 20,
-    paddingTop: 50
+    paddingTop: 100
   },
   searchSectionWrapper: {
     flexDirection: 'row',

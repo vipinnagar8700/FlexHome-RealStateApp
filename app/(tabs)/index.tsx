@@ -1,17 +1,18 @@
 import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import { Link, Stack } from 'expo-router'
+import { Link, Stack, useNavigation } from 'expo-router'
 import { FontAwesome5, Ionicons, MaterialIcons } from '@expo/vector-icons'
 import colors from '@/constants/colors'
 import { useHeaderHeight } from '@react-navigation/elements'
 import { supabase } from '../../supabase/supabase';
+import { DrawerActions } from '@react-navigation/native'
 
 const page = () => {
     const scrollRef = useRef<ScrollView>(null);
     const itemRef = useRef<TouchableOpacity[] | null[]>([]);
     const [activeIndex, setActiveIndex] = useState(0)
     const headerHeight = useHeaderHeight();
-
+    const navigation = useNavigation();
 // Retrive Featured Properties
     const [FeaturedProperties, setFeaturedProperties] = useState([]);
 
@@ -188,7 +189,7 @@ useEffect(() => {
             <Stack.Screen options={{
                 headerTransparent: true, headerTitle: "",
                 headerLeft: () => (
-                    <TouchableOpacity onPress={() => { }} style={{ marginLeft: 20 }}>
+                    <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.openDrawer())} style={{ marginLeft: 20 }}>
                         <Image source={{ uri: 'https://images.pexels.com/photos/1468379/pexels-photo-1468379.jpeg?auto=compress&cs=tinysrgb&w=800' }} style={{ width: 40, height: 40, borderRadius: 10 }} />
                     </TouchableOpacity>
                 ),
@@ -231,7 +232,7 @@ useEffect(() => {
                                 const truncatedLocation = truncateText(data?.Location, 3);
                                 return(
                                     <Link href={`/property/${data?.ID}`} asChild>
-                                    <TouchableOpacity key={index}>
+                                    <TouchableOpacity key={data?.ID}>
                                     <View style={styles.FeaturedListing}>
                                         <Image source={{
                                             uri: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=800'
@@ -291,7 +292,7 @@ useEffect(() => {
                                 const truncatedLocation = truncateText(data?.Location, 2);
                                 return(
                                     <Link href={`/property/${data?.ID}`} asChild>
-                                    <TouchableOpacity key={index}>
+                                    <TouchableOpacity key={data?.ID}>
                                     <View style={styles.CategoryListing}>
                                         <Image source={{
                                            uri: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=800'
@@ -335,7 +336,7 @@ useEffect(() => {
                     {
                             AllPropertiesLocation && AllPropertiesLocation.map((data,index)=>{
                                 return(
-                                    <TouchableOpacity key={index}>
+                                    <TouchableOpacity key={data?.ID}>
                                     <View style={styles.CategoryListing}>
                                         <Image source={{
                                             uri: data?.Image
@@ -364,7 +365,7 @@ useEffect(() => {
                                 const truncatedLocation = truncateText(data?.Location, 2);
                                 return(
                                     <Link href={`/property/${data?.ID}`} asChild>
-                                    <TouchableOpacity key={index}>
+                                    <TouchableOpacity key={data?.ID}>
                                     <View style={styles.CategoryListing}>
                                         <Image source={{
                                             uri: "https://images.pexels.com/photos/51212/pexels-photo-51212.jpeg?auto=compress&cs=tinysrgb&w=800"
@@ -400,9 +401,7 @@ useEffect(() => {
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Text style={styles.headingTextCategory}>Properties for Rent</Text>
                         <Link href="/search" asChild>
-                        <Link href="/search" asChild>
                         <Text style={{fontFamily:'SpaceMono',color:colors.primaryColor}}>All</Text>
-                        </Link>
                         </Link>
                     </View>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ flexDirection: 'row', gap: 5, paddingVertical: 10, marginBottom: 10 }}>
@@ -411,7 +410,7 @@ useEffect(() => {
                                 const truncatedLocation = truncateText(data?.Location, 2);
                                 return(
                                     <Link href={`/property/${data?.ID}`} asChild>
-                                    <TouchableOpacity key={index}>
+                                    <TouchableOpacity key={data?.ID}>
                                     <View style={styles.CategoryListing}>
                                         <Image source={{
                                             uri: "https://images.pexels.com/photos/144632/pexels-photo-144632.jpeg?auto=compress&cs=tinysrgb&w=800"
@@ -454,7 +453,7 @@ useEffect(() => {
                             AllPropertieAgent && AllPropertieAgent.map((data,index)=>{
                                 return(
                                     <Link href={`/agent/${data?.ID}`} asChild>
-                                    <TouchableOpacity key={index}>
+                                    <TouchableOpacity key={data?.ID}>
                                     <View style={styles.CategoryListing}>
                                         <Image source={{
                                             uri: data?.Image
@@ -484,7 +483,7 @@ useEffect(() => {
                         {
                             AllPropertieNews && AllPropertieNews.map((data,index)=>{
                                 return(
-                                    <TouchableOpacity key={index}>
+                                    <TouchableOpacity key={data?.ID}>
                                     <View style={styles.CategoryListing}>
                                         <Image source={{
                                             uri: data?.Image
